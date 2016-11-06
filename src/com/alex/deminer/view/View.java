@@ -9,27 +9,24 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-import static com.alex.deminer.data.Model.count;
-import static com.alex.deminer.data.Model.falseCount;
 import static com.alex.deminer.data.Model.r;
 
 public class View extends JFrame {
-    JButton[][] button = new JButton[10][10];
+    private JButton[][] button = new JButton[10][10];
 
-    public View(){
-//        super("проба");
+    public View() {
         setSize(500, 560);  //делаем окно
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setTitle("Игра минёр");
+        setTitle("Игра \"Минёр\"");
         setLayout(new GridLayout(10, 10));
 
         JMenuBar menuBar = new JMenuBar();   //создаем менюшку
-        JMenu myMenu = new JMenu("Game");
-        JMenuItem txtMenu1 = new JMenuItem("Do it!");
+        JMenu myMenu = new JMenu("Игра");
+        JMenuItem txtMenu1 = new JMenuItem("Новая игра");
         myMenu.add(txtMenu1);
         myMenu.addSeparator();
-        JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem exitItem = new JMenuItem("Выход");
         myMenu.add(exitItem);
         menuBar.add(myMenu);
         setJMenuBar(menuBar);
@@ -46,18 +43,18 @@ public class View extends JFrame {
     }
 
 
-    class ExitAction implements ActionListener {
+    private class ExitAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }
     }
 
-    class OnClick implements MouseListener {
+    private class OnClick implements MouseListener {
         int a;
         int b;
 
-        public OnClick(int a, int b) {
+        OnClick(int a, int b) {
             this.a = a;
             this.b = b;
         }
@@ -68,7 +65,7 @@ public class View extends JFrame {
 
             if (SwingUtilities.isRightMouseButton(e)) {
 //              Нажата правая кнопка
-                if (btnTmp.getText() == "B") {
+                if (Objects.equals(btnTmp.getText(), "B")) {
                     bombCheckAndCount(false, tmp);
                 } else {
                     bombCheckAndCount(true, tmp);
@@ -100,23 +97,23 @@ public class View extends JFrame {
         public void mouseExited(MouseEvent e) {
         }
 
-        public void bombCheckAndCount(boolean bmb, int realValue) {
+        void bombCheckAndCount(boolean bmb, int realValue) {
             if (bmb && realValue == 9) {
                 button[a][b].setText("B");
                 Model.count--;
-                System.out.println("count="+Model.count);
+                System.out.println("count=" + Model.count);
             } else if (bmb && realValue != 9) {
                 button[a][b].setText("B");
                 Model.falseCount++;
-                System.out.println("falsecount="+Model.falseCount);
+                System.out.println("falsecount=" + Model.falseCount);
             } else if (!bmb && realValue != 9) {
                 button[a][b].setText(" ");
                 Model.falseCount--;
-                System.out.println("falsecount="+Model.falseCount);
+                System.out.println("falsecount=" + Model.falseCount);
             } else if (!bmb && realValue == 9) {
                 button[a][b].setText(" ");
                 Model.count++;
-                System.out.println("count="+Model.count);
+                System.out.println("count=" + Model.count);
             }
             if (Model.count == 0 && Model.falseCount == 0) {
                 Manager.win();  //победа
@@ -124,10 +121,10 @@ public class View extends JFrame {
         }
     }
 
-    Map<Integer, Stack> mapStack = new HashMap<>();
-    int n = 1;
+    private Map<Integer, Stack> mapStack = new HashMap<>();
+    private int n = 1;
 
-    public void reDrawOnLeftClick() {
+    private void reDrawOnLeftClick() {
         Stack tmpSt = mapStack.get(n--);
         int i = tmpSt.getX();
         int j = tmpSt.getY();
@@ -136,22 +133,25 @@ public class View extends JFrame {
         button[i][j].setEnabled(false);
         for (int x = i - 1; x <= i + 1; x++) {
             for (int y = j - 1; y <= j + 1; y++) {
+                //todo переписать IF наоборот, чтоб не был пустой
                 if (x < 0 || x >= Model.size[r] || y < 0 || y >= Model.size[r]) {
 //                            улыбаемся и машем, т.к. индекс вне диапозона
                 } else {
                     if (Model.pointValue(x, y) == 0) {
                         mapStack.put(++n, new Stack(x, y));
-                    }else if(Model.pointValue(x, y) != 33 && Model.pointValue(x, y) != 0 && Model.pointValue(x, y) != 9){
+                    } else if (Model.pointValue(x, y) != 33 && Model.pointValue(x, y) != 0 && Model.pointValue(x, y) != 9) {
                         button[x][y].setText(String.valueOf(Model.pointValue(x, y)));
                         button[x][y].setEnabled(false);
                     }
                 }
             }
         }
-        if (n == 0){
+        if (n == 0) {
             //// TODO: здесь была ошибка 
             n = 1;
-            return;
-        }else reDrawOnLeftClick();
+//            return;
+        } else {
+            reDrawOnLeftClick();
+        }
     }
 }
