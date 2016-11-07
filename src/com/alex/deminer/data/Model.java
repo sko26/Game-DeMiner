@@ -17,7 +17,6 @@ public class Model {
                 if (tmp > 90) {
                     field[i][j] = 9; // 9 - это  поле с миной
                     count++;
-                    System.out.println(i + " " + j);
                 } else field[i][j] = 0; // 0 - это поле без бомбы
             }
         }
@@ -44,14 +43,6 @@ public class Model {
                 }
             }
         }
-//
-//        for (int i = 0; i < field.length; i++) {
-//            for (int j = 0; j < field.length; j++) {
-//                System.out.print(field[i][j]);
-//            }
-//            System.out.println();
-//        }
-
     }
 
     static public int pointValue(int a, int b) {
