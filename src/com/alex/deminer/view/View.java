@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+import static com.alex.deminer.Main.gameWindow;
 import static com.alex.deminer.data.Model.r;
 
 public class View extends JFrame {
@@ -23,9 +24,10 @@ public class View extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();   //создаем менюшку
         JMenu myMenu = new JMenu("Игра");
-        JMenuItem txtMenu1 = new JMenuItem("Новая игра");
-        myMenu.add(txtMenu1);
+        JMenuItem newGame = new JMenuItem("Новая игра");
+        myMenu.add(newGame);
         myMenu.addSeparator();
+        newGame.addActionListener(new NewGameAction());
         JMenuItem exitItem = new JMenuItem("Выход");
         myMenu.add(exitItem);
         menuBar.add(myMenu);
@@ -42,6 +44,18 @@ public class View extends JFrame {
         setLocationRelativeTo(null); //ставим окно по центру
     }
 
+    private class NewGameAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ev) {
+            Model.count = 0;
+            Model.falseCount = 0;
+            Model.fieldInit();
+            Model.fieldReCount();
+            gameWindow.setVisible(false);
+            gameWindow = new View();
+            gameWindow.setVisible(true);
+        }
+    }
 
     private class ExitAction implements ActionListener {
         @Override
