@@ -115,19 +115,15 @@ public class View extends JFrame {
             if (bmb && realValue == 9) {
                 button[a][b].setText("B");
                 Model.count--;
-                System.out.println("count=" + Model.count);
             } else if (bmb && realValue != 9) {
                 button[a][b].setText("B");
                 Model.falseCount++;
-                System.out.println("falsecount=" + Model.falseCount);
             } else if (!bmb && realValue != 9) {
                 button[a][b].setText(" ");
                 Model.falseCount--;
-                System.out.println("falsecount=" + Model.falseCount);
             } else if (!bmb && realValue == 9) {
                 button[a][b].setText(" ");
                 Model.count++;
-                System.out.println("count=" + Model.count);
             }
             if (Model.count == 0 && Model.falseCount == 0) {
                 Manager.win();  //победа
