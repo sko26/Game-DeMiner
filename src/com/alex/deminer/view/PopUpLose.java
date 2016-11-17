@@ -10,7 +10,8 @@ public class PopUpLose extends JFrame {
 
     public PopUpLose() {
         int a;
-        a = JOptionPane.showConfirmDialog(button, "Вы проиграли. Хотите еще раз сыграть?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        a = JOptionPane.showConfirmDialog(button, "Вы проиграли. Хотите еще раз сыграть?", "",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (a == 1) {
             System.exit(0);
         } else {
